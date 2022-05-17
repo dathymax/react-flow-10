@@ -1,7 +1,7 @@
 import React, {useCallback, useRef, useState} from 'react';
 import ReactFlow, {
     addEdge,
-    Controls,
+    Controls, MarkerType,
     MiniMap,
     ReactFlowProvider,
     useEdgesState,
@@ -25,7 +25,10 @@ const DnDFlow = () => {
     const [reactFlowInstance, setReactFlowInstance] = useState(null);
     const [name, setName] = useState("");
 
-    const onConnect = useCallback((params) => setEdges((eds) => addEdge(params, eds)), []);
+    const onConnect = (params) =>
+        setEdges((eds) =>
+            addEdge({ ...params, type: 'floating', markerEnd: { type: MarkerType.Arrow } }, eds)
+        );
 
     const onDragOver = useCallback((event) => {
         event.preventDefault();
@@ -78,11 +81,11 @@ const DnDFlow = () => {
         setName("");
     };
 
-    const addCircleHandler = () => {
+    const addCircleStartHandler = () => {
         const newNode = {
             id: `${Date.now()}`,
             data: { label: `${name}` },
-            type: "circle",
+            type: "circleStart",
             position: {
                 x: 0,
                 y: 0
@@ -96,11 +99,29 @@ const DnDFlow = () => {
         setName("");
     };
 
-    const addTriangleHandler = () => {
+    const addCircleEndHandler = () => {
         const newNode = {
             id: `${Date.now()}`,
             data: { label: `${name}` },
-            type: "triangle",
+            type: "circleEnd",
+            position: {
+                x: 0,
+                y: 0
+            }
+        };
+        newNode.data = { ...newNode.data, id: `${newNode.id}` };
+
+        setNodes((prev) => {
+            return [...prev, newNode];
+        });
+        setName("");
+    };
+
+    const addSquareHandler = () => {
+        const newNode = {
+            id: `${Date.now()}`,
+            data: { label: `${name}` },
+            type: "square",
             position: {
                 x: 0,
                 y: 0
@@ -152,48 +173,29 @@ const DnDFlow = () => {
                         <Controls/>
                     </ReactFlow>
                 </div>
-                <Sidebar nodes={nodes} setNodes={setNodes}/>
-                <MiniMap/>
-                <div>
-                    <input
-                        value={name}
-                        onChange={(e) => setName(e.target.value)}
-                        type="text"
-                        placeholder="Enter new node name"
-                    />
-
-                    <button type="button" onClick={addRectangleHandler}>
-                        Create Rectangle
-                    </button>
-
-                    <button type="button" onClick={addCircleHandler}>
-                        Create Circle
-                    </button>
-
-                    <button type="button" onClick={addTriangleHandler}>
-                        Create Triangle
-                    </button>
-
-                    <button type="button" onClick={addTextHandler}>
-                        Plain text
-                    </button>
-                </div>
-
-                {/*<div>*/}
-                {/*    <input*/}
-                {/*        value={newName}*/}
-                {/*        onChange={(e) => setNewName(e.target.value)}*/}
-                {/*        type="text"*/}
-                {/*    />*/}
-
-                {/*    <button type="button" onClick={updateNodeHandler}>*/}
-                {/*        Update*/}
-                {/*    </button>*/}
-                {/*</div>*/}
-
-                {/*<button type="button" onClick={saveChangesHandler}>*/}
-                {/*    Save changes*/}
-                {/*</button>*/}
+                <Sidebar
+                    nodes={nodes}
+                    setNodes={setNodes}
+                    name={name}
+                    setName={setName}
+                    addRectangleHandler={addRectangleHandler}
+                    addCircleStartHandler={addCircleStartHandler}
+                    addCircleEndHandler={addCircleEndHandler}
+                    addSquareHandler={addSquareHandler}
+                    addTextHandler={addTextHandler}
+                />
+                <MiniMap nodeColor={(node) => {
+                    switch (node.type) {
+                        case "rectangle":
+                            return "red";
+                        case "circle":
+                            return "#00ff00";
+                        case "triangle":
+                            return "rgb(0,0,255)";
+                        default:
+                            return "#eee";
+                    }
+                }}/>
             </ReactFlowProvider>
         </div>
     );

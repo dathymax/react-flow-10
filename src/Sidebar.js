@@ -3,7 +3,10 @@ import { useStore } from 'react-flow-renderer';
 
 const transformSelector = (state) => state.transform;
 
-export default ({ nodes, setNodes }) => {
+export default ({ nodes, setNodes, name, setName,
+                    addRectangleHandler, addCircleStartHandler,
+                    addCircleEndHandler, addSquareHandler,
+                    addTextHandler}) => {
     const onDragStart = (event, nodeType) => {
         event.dataTransfer.setData('application/reactflow', nodeType);
         event.dataTransfer.effectAllowed = 'move';
@@ -49,6 +52,51 @@ export default ({ nodes, setNodes }) => {
             <div className="selectall">
                 <button onClick={selectAll}>select all nodes</button>
             </div>
+
+            <div className={"flex-column"}>
+                <input
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    type="text"
+                    placeholder="Enter new node name"
+                />
+
+                <button type="button" onClick={addRectangleHandler} className={"margin-y-10 padding-y-5"}>
+                    Create Rectangle
+                </button>
+
+                <button type="button" onClick={addCircleStartHandler} className={"margin-y-10 padding-y-5"}>
+                    Create Circle Start
+                </button>
+
+                <button type="button" onClick={addCircleEndHandler} className={"margin-y-10 padding-y-5"}>
+                    Create Circle End
+                </button>
+
+                <button type="button" onClick={addSquareHandler} className={"margin-y-10 padding-y-5"}>
+                    Create Square 45deg
+                </button>
+
+                <button type="button" onClick={addTextHandler} className={"margin-y-10 padding-y-5"}>
+                    Plain text
+                </button>
+            </div>
+
+            {/*<div>*/}
+            {/*    <input*/}
+            {/*        value={newName}*/}
+            {/*        onChange={(e) => setNewName(e.target.value)}*/}
+            {/*        type="text"*/}
+            {/*    />*/}
+
+            {/*    <button type="button" onClick={updateNodeHandler}>*/}
+            {/*        Update*/}
+            {/*    </button>*/}
+            {/*</div>*/}
+
+            {/*<button type="button" onClick={saveChangesHandler}>*/}
+            {/*    Save changes*/}
+            {/*</button>*/}
         </aside>
     );
 };

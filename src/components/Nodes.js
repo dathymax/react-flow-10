@@ -1,33 +1,39 @@
 import React from "react";
 import { Handle } from "react-flow-renderer";
 
-const RectangleNode = ({ data }) => {
+const SquareNode = ({ data }) => {
     return (
-        <div style={{ background: "#9ca8b3", padding: "14px" }}>
+        <div className={"rectangle-node"}>
             <Handle
                 type="target"
                 position="left"
                 id={`${data.id}.left`}
-                style={{ borderRadius: 0 }}
+                style={{top: 0}}
             />
             <div id={data.id}>{data.label}</div>
             <Handle
                 type="source"
                 position="right"
-                id={`${data.id}.right1`}
-                style={{ top: "30%", borderRadius: 0 }}
+                id={`${data.id}.right`}
+                style={{top: "100%"}}
+            />
+            <Handle
+                type="target"
+                position="top"
+                id={`${data.id}.top`}
+                style={{left: "100%"}}
             />
             <Handle
                 type="source"
-                position="right"
-                id={`${data.id}.right2`}
-                style={{ top: "70%", borderRadius: 0 }}
+                position="bottom"
+                id={`${data.id}.bottom`}
+                style={{left: 0}}
             />
         </div>
     );
 };
 
-const CircleNode = ({ data }) => {
+const CircleStartNode = ({ data }) => {
     return (
         <div
             style={{
@@ -36,52 +42,58 @@ const CircleNode = ({ data }) => {
                 borderRadius: "50px"
             }}
         >
-            <Handle
-                type="target"
-                position="left"
-                id={`${data.id}.left`}
-                style={{ borderRadius: "0" }}
-            />
             <div id={data.id}>{data.label}</div>
             <Handle
                 type="source"
                 position="right"
-                id={`${data.id}.right1`}
-                style={{ top: "30%", borderRadius: 0 }}
-            />
-            <Handle
-                type="source"
-                position="right"
-                id={`${data.id}.right2`}
-                style={{ top: "70%", borderRadius: 0 }}
+                id={`${data.id}.right`}
             />
         </div>
     );
 };
 
-const TriangleNode = ({ data }) => {
+const CircleEndNode = ({ data }) => {
     return (
-        <div className="triangle-node">
+        <div
+            style={{
+                backgroundColor: "#9ca8b3",
+                padding: "14px",
+                borderRadius: "50px"
+            }}
+        >
+            <div id={data.id}>{data.label}</div>
             <Handle
                 type="target"
+                position="left"
+                id={`${data.id}.left`}
+            />
+        </div>
+    );
+};
+
+const RectangleNode = ({ data }) => {
+    return (
+        <div className={"triangle-node"}>
+            <Handle
+                type="target"
+                position="left"
+                id={`${data.id}.left`}
+            />
+            <div id={data.id}>{data.label}</div>
+            <Handle
+                type="source"
+                position="right"
+                id={`${data.id}.right`}
+            />
+            <Handle
+                type="source"
                 position="top"
                 id={`${data.id}.top`}
-                style={{ borderRadius: 0 }}
-            />
-            <div id={data.id} className="triangle-node-text">
-                {data.label}
-            </div>
-            <Handle
-                type="source"
-                position="bottom"
-                id={`${data.id}.bottom1`}
-                style={{ left: "30%", borderRadius: 0 }}
             />
             <Handle
-                type="source"
+                type="target"
                 position="bottom"
-                id={`${data.id}.bottom2`}
-                style={{ left: "70%", borderRadius: 0 }}
+                id={`${data.id}.bottom`}
             />
         </div>
     );
@@ -96,8 +108,9 @@ export const TextNode = ({ data }) => {
 };
 
 export const nodeTypes = {
-    circle: CircleNode,
+    circleStart: CircleStartNode,
+    circleEnd: CircleEndNode,
     rectangle: RectangleNode,
-    triangle: TriangleNode,
+    square: SquareNode,
     text: TextNode
 };
