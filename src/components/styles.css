@@ -1,0 +1,59 @@
+.start_node--icon {
+    border: 1px solid #000;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    margin: 10px;
+}
+
+.start_node--render {
+    border: 1px solid #000;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+}
+
+.end_node--icon {
+    border: 3px solid #000;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    margin: 10px;
+}
+
+.end_node--render {
+    border: 3px solid #000;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+}
+
+.task_node--icon {
+    border: 1px solid #000;
+    width: 50px;
+    height: 30px;
+    border-radius: 5px;
+    margin: 10px;
+}
+
+.task_node--render {
+    border: 1px solid #000;
+    width: 50px;
+    height: 30px;
+    border-radius: 5px;
+}
+
+
+.fork_node--icon {
+    border: 1px solid #000;
+    width: 30px;
+    height: 30px;
+    margin: 10px;
+    transform: rotate(45deg);
+}
+.fork_node--render {
+    border: 1px solid #000;
+    width: 30px;
+    height: 30px;
+    transform: rotate(45deg);
+}

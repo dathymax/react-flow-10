@@ -1,116 +1,124 @@
 import React from "react";
 import { Handle } from "react-flow-renderer";
 
-const SquareNode = ({ data }) => {
+const styles = {
+}
+
+const StartNode = ({ data }) => {
     return (
-        <div className={"rectangle-node"}>
-            <Handle
-                type="target"
-                position="left"
-                id={`${data.id}.left`}
-                style={{top: 0}}
-            />
-            <div id={data.id}>{data.label}</div>
+        <div className={"start_node--render"}>
             <Handle
                 type="source"
                 position="right"
                 id={`${data.id}.right`}
-                style={{top: "100%"}}
-            />
-            <Handle
-                type="target"
-                position="top"
-                id={`${data.id}.top`}
-                style={{left: "100%"}}
-            />
-            <Handle
-                type="source"
-                position="bottom"
-                id={`${data.id}.bottom`}
-                style={{left: 0}}
+                style={{...styles, top: "50%"}}
             />
         </div>
     );
 };
 
-const CircleStartNode = ({ data }) => {
+const EndNode = ({data}) => {
     return (
-        <div
-            style={{
-                backgroundColor: "#9ca8b3",
-                padding: "14px",
-                borderRadius: "50px"
-            }}
-        >
-            <div id={data.id}>{data.label}</div>
-            <Handle
-                type="source"
-                position="right"
-                id={`${data.id}.right`}
-            />
-        </div>
-    );
-};
-
-const CircleEndNode = ({ data }) => {
-    return (
-        <div
-            style={{
-                backgroundColor: "#9ca8b3",
-                padding: "14px",
-                borderRadius: "50px"
-            }}
-        >
-            <div id={data.id}>{data.label}</div>
+        <div className={"end_node--render"}>
             <Handle
                 type="target"
                 position="left"
                 id={`${data.id}.left`}
+                style={{...styles, top: "50%"}}
             />
         </div>
-    );
-};
+    )
+}
 
-const RectangleNode = ({ data }) => {
+const TaskNode = ({data}) => {
     return (
-        <div className={"triangle-node"}>
+        <div className={"task_node--render"}>
+            <Handle
+                type="source"
+                position="left"
+                id={`${data.id}.left`}
+                style={{...styles, top: "25%"}}
+            />
             <Handle
                 type="target"
                 position="left"
                 id={`${data.id}.left`}
-            />
-            <div id={data.id}>{data.label}</div>
-            <Handle
-                type="source"
-                position="right"
-                id={`${data.id}.right`}
+                style={{...styles, top: "75%"}}
             />
             <Handle
                 type="source"
                 position="top"
                 id={`${data.id}.top`}
+                style={{...styles, left: "25%"}}
+            />
+            <Handle
+                type="target"
+                position="top"
+                id={`${data.id}.top`}
+                style={{...styles, left: "75%"}}
+            />
+            <Handle
+                type="source"
+                position="right"
+                id={`${data.id}.right`}
+                style={{...styles, top: "25%"}}
+            />
+            <Handle
+                type="target"
+                position="right"
+                id={`${data.id}.right`}
+                style={{...styles, top: "75%"}}
+            />
+            <Handle
+                type="source"
+                position="bottom"
+                id={`${data.id}.bottom`}
+                style={{...styles, left: "25%"}}
             />
             <Handle
                 type="target"
                 position="bottom"
                 id={`${data.id}.bottom`}
+                style={{...styles, left: "75%"}}
             />
         </div>
-    );
-};
+    )
+}
 
-export const TextNode = ({ data }) => {
+const ForkNode = ({data}) => {
     return (
-        <div style={{ background: "transparent", padding: "14px" }}>
-            <div id={data.id}>{data.label}</div>
+        <div className={"fork_node--render"}>
+            <Handle
+                type="target"
+                position="left"
+                id={`${data.id}.left`}
+                style={{...styles, top: 0}}
+            />
+            <Handle
+                type="source"
+                position="top"
+                id={`${data.id}.top`}
+                style={{...styles, left: "100%"}}
+            />
+            <Handle
+                type="target"
+                position="right"
+                id={`${data.id}.right`}
+                style={{...styles, top: "100%"}}
+            />
+            <Handle
+                type="target"
+                position="bottom"
+                id={`${data.id}.bottom`}
+                style={{...styles, left: 0}}
+            />
         </div>
-    );
-};
+    )
+}
 
 export const nodeTypes = {
-    circleStart: CircleStartNode,
-    circleEnd: CircleEndNode,
-    rectangle: RectangleNode,
-    square: SquareNode,
-    text: TextNode
+    startNode: StartNode,
+    endNode: EndNode,
+    taskNode: TaskNode,
+    forkNode: ForkNode,
 };

@@ -1,3 +1,5 @@
+@import 'antd/dist/antd.css';
+
 body {
     margin: 0;
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
@@ -78,26 +80,13 @@ code {
     }
 }
 
-.triangle-node {
-    background-color: #9ca8b3;
-    width: 40px;
-    height: 20px;
-    padding: 14px;
-    border-radius: 5px;
+.flex {
+    display: flex;
 }
 
-.triangle-node-text {
-    text-align: center;
-    position: relative;
-}
-
-.rectangle-node {
-    background-color: #9ca8b3;
-    width: 20px;
-    height: 20px;
-    padding: 10px;
-    transform: rotate(45deg);
-    -ms-transform: rotate(45deg);
+.flex--wrap {
+    display: flex;
+    flex-wrap: wrap;
 }
 
 .flex-column {
@@ -113,6 +102,11 @@ code {
 .margin-y-10 {
     margin-top: 10px;
     margin-bottom: 10px;
+}
+
+.margin-x-10 {
+    margin-right: 10px;
+    margin-left: 10px;
 }
 
 

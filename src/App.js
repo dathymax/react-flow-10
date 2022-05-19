@@ -1,34 +1,36 @@
 import React, {useCallback, useRef, useState} from 'react';
 import ReactFlow, {
     addEdge,
-    Controls, MarkerType,
+    Controls,
     MiniMap,
     ReactFlowProvider,
     useEdgesState,
-    useNodesState,
-} from 'react-flow-renderer';
-
-import Sidebar from './Sidebar';
-
-import './index.css';
+    useNodesState
+} from "react-flow-renderer";
 import {nodeTypes} from "./components/Nodes";
+import Sidebar from './components/Sidebar';
 
-const initialNodes = [];
+const styles = {
+    width: "100%",
+    height: "100vh"
+}
+
+const initialNodes = [
+];
 
 let id = 0;
 const getId = () => `dndnode_${id++}`;
 
-const DnDFlow = () => {
+function App(props) {
     const reactFlowWrapper = useRef(null);
     const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
     const [edges, setEdges, onEdgesChange] = useEdgesState([]);
     const [reactFlowInstance, setReactFlowInstance] = useState(null);
-    const [name, setName] = useState("");
 
-    const onConnect = (params) =>
+    const onConnect = useCallback((params) => {
         setEdges((eds) =>
-            addEdge({ ...params, type: 'floating', markerEnd: { type: MarkerType.Arrow } }, eds)
-        );
+            addEdge(params, eds))
+        }, []);
 
     const onDragOver = useCallback((event) => {
         event.preventDefault();
@@ -55,7 +57,7 @@ const DnDFlow = () => {
                 id: getId(),
                 type,
                 position,
-                data: {label: `${type} node`},
+                data: { label: `` },
             };
 
             setNodes((nds) => nds.concat(newNode));
@@ -63,99 +65,10 @@ const DnDFlow = () => {
         [reactFlowInstance]
     );
 
-    const addRectangleHandler = () => {
-        const newNode = {
-            id: `${Date.now()}`,
-            data: { label: `${name}` },
-            type: "rectangle",
-            position: {
-                x: 0,
-                y: 0
-            }
-        };
-        newNode.data = { ...newNode.data, id: `${newNode.id}` };
-
-        setNodes((prev) => {
-            return [...prev, newNode];
-        });
-        setName("");
-    };
-
-    const addCircleStartHandler = () => {
-        const newNode = {
-            id: `${Date.now()}`,
-            data: { label: `${name}` },
-            type: "circleStart",
-            position: {
-                x: 0,
-                y: 0
-            }
-        };
-        newNode.data = { ...newNode.data, id: `${newNode.id}` };
-
-        setNodes((prev) => {
-            return [...prev, newNode];
-        });
-        setName("");
-    };
-
-    const addCircleEndHandler = () => {
-        const newNode = {
-            id: `${Date.now()}`,
-            data: { label: `${name}` },
-            type: "circleEnd",
-            position: {
-                x: 0,
-                y: 0
-            }
-        };
-        newNode.data = { ...newNode.data, id: `${newNode.id}` };
-
-        setNodes((prev) => {
-            return [...prev, newNode];
-        });
-        setName("");
-    };
-
-    const addSquareHandler = () => {
-        const newNode = {
-            id: `${Date.now()}`,
-            data: { label: `${name}` },
-            type: "square",
-            position: {
-                x: 0,
-                y: 0
-            }
-        };
-        newNode.data = { ...newNode.data, id: `${newNode.id}` };
-
-        setNodes((prev) => {
-            return [...prev, newNode];
-        });
-        setName("");
-    };
-
-    const addTextHandler = () => {
-        const newNode = {
-            id: `${Date.now()}`,
-            data: { label: `${name}` },
-            type: "text",
-            position: {
-                x: 0,
-                y: 0
-            }
-        };
-        newNode.data = { ...newNode.data, id: `${newNode.id}` };
-
-        setNodes((prev) => {
-            return [...prev, newNode];
-        });
-        setName("");
-    };
-
     return (
         <div className="dndflow">
             <ReactFlowProvider>
+                <Sidebar />
                 <div className="reactflow-wrapper" ref={reactFlowWrapper}>
                     <ReactFlow
                         nodes={nodes}
@@ -168,37 +81,15 @@ const DnDFlow = () => {
                         nodeTypes={nodeTypes}
                         onDragOver={onDragOver}
                         fitView
-                        style={{width: "100%", height: "100vh"}}
+                        style={{...styles}}
                     >
-                        <Controls/>
+                        <MiniMap/>
+                        <Controls />
                     </ReactFlow>
                 </div>
-                <Sidebar
-                    nodes={nodes}
-                    setNodes={setNodes}
-                    name={name}
-                    setName={setName}
-                    addRectangleHandler={addRectangleHandler}
-                    addCircleStartHandler={addCircleStartHandler}
-                    addCircleEndHandler={addCircleEndHandler}
-                    addSquareHandler={addSquareHandler}
-                    addTextHandler={addTextHandler}
-                />
-                <MiniMap nodeColor={(node) => {
-                    switch (node.type) {
-                        case "rectangle":
-                            return "red";
-                        case "circle":
-                            return "#00ff00";
-                        case "triangle":
-                            return "rgb(0,0,255)";
-                        default:
-                            return "#eee";
-                    }
-                }}/>
             </ReactFlowProvider>
         </div>
     );
-};
+}
 
-export default DnDFlow;
+export default App;
